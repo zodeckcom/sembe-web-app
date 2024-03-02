@@ -1,0 +1,330 @@
+import { Link, NavLink } from 'react-router-dom';
+import { DataTable, DataTableSortStatus } from 'mantine-datatable';
+import { useState, useEffect } from 'react';
+import sortBy from 'lodash/sortBy';
+import { useDispatch, useSelector } from 'react-redux';
+import { setPageTitle } from '../../store/themeConfigSlice';
+import ReactApexChart from 'react-apexcharts';
+import IconBitcoin from '../../components/Icon/IconBitcoin';
+import Dropdown from '../../components/Dropdown';
+import IconEye from '../../components/Icon/IconEye';
+import IconHorizontalDots from '../../components/Icon/IconHorizontalDots';
+import IconDollarSign from '../../components/Icon/IconDollarSign';
+import IconBarChart from '../../components/Icon/IconBarChart';
+import IconBox from '../../components/Icon/IconBox';
+import IconXCircle from '../../components/Icon/IconXCircle';
+import IconTag from '../../components/Icon/IconTag';
+import IconChartSquare from '../../components/Icon/IconChartSquare';
+import IconClock from '../../components/Icon/IconClock';
+
+const DashboardProvider = () => {
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(setPageTitle('Dashboard'));
+    });
+    const [items, setItems] = useState([
+        {
+            id: 1,
+            invoice: '081451',
+            name: 'Laurie Fox',
+            email: 'lauriefox@company.com',
+            date: '15 Dec 2020',
+            amount: '2275.45',
+            status: { tooltip: 'Delivered', color: 'success' },
+            profile: 'profile-1.jpeg',
+        },
+        {
+            id: 2,
+            invoice: '081452',
+            name: 'Alexander Gray',
+            email: 'alexGray3188@gmail.com',
+            date: '20 Dec 2020',
+            amount: '1044.00',
+            status: { tooltip: 'Delivered', color: 'success' },
+            profile: 'profile-1.jpeg',
+        },
+        {
+            id: 3,
+            invoice: '081681',
+            name: 'James Taylor',
+            email: 'jamestaylor468@gmail.com',
+            date: '27 Dec 2020',
+            amount: '20.00',
+            status: { tooltip: 'Pending', color: 'danger' },
+            profile: 'profile-1.jpeg',
+        },
+        {
+            id: 4,
+            invoice: '082693',
+            name: 'Grace Roberts',
+            email: 'graceRoberts@company.com',
+            date: '31 Dec 2020',
+            amount: '344.00',
+            status: { tooltip: 'Delivered', color: 'success' },
+            profile: 'profile-1.jpeg',
+        },
+        {
+            id: 5,
+            invoice: '084743',
+            name: 'Donna Rogers',
+            email: 'donnaRogers@hotmail.com',
+            date: '03 Jan 2021',
+            amount: '405.15',
+            status: { tooltip: 'Delivered', color: 'success' },
+            profile: 'profile-1.jpeg',
+        },
+        {
+            id: 6,
+            invoice: '086643',
+            name: 'Amy Diaz',
+            email: 'amy968@gmail.com',
+            date: '14 Jan 2020',
+            amount: '100.00',
+            status: { tooltip: 'Delivered', color: 'success' },
+            profile: 'profile-1.jpeg',
+        },
+        {
+            id: 7,
+            invoice: '086773',
+            name: 'Nia Hillyer',
+            email: 'niahillyer666@comapny.com',
+            date: '20 Jan 2021',
+            amount: '59.21',
+            status: { tooltip: 'Pending', color: 'danger' },
+            profile: 'profile-1.jpeg',
+        },
+        {
+            id: 8,
+            invoice: '087916',
+            name: 'Mary McDonald',
+            email: 'maryDonald007@gamil.com',
+            date: '25 Jan 2021',
+            amount: '79.00',
+            status: { tooltip: 'Pending', color: 'danger' },
+            profile: 'profile-1.jpeg',
+        },
+        {
+            id: 9,
+            invoice: '089472',
+            name: 'Andy King',
+            email: 'kingandy07@company.com',
+            date: '28 Jan 2021',
+            amount: '149.00',
+            status: { tooltip: 'Delivered', color: 'success' },
+            profile: 'profile-1.jpeg',
+        },
+        {
+            id: 10,
+            invoice: '091768',
+            name: 'Vincent Carpenter',
+            email: 'vincentcarpenter@gmail.com',
+            date: '30 Jan 2021',
+            amount: '400',
+            status: { tooltip: 'Delivered', color: 'success' },
+            profile: 'profile-1.jpeg',
+        },
+        {
+            id: 11,
+            invoice: '095841',
+            name: 'Kelly Young',
+            email: 'youngkelly@hotmail.com',
+            date: '06 Feb 2021',
+            amount: '49.00',
+            status: { tooltip: 'Pending', color: 'danger' },
+            profile: 'profile-1.jpeg',
+        },
+        {
+            id: 12,
+            invoice: '098424',
+            name: 'Alma Clarke',
+            email: 'alma.clarke@gmail.com',
+            date: '10 Feb 2021',
+            amount: '234.40',
+            status: { tooltip: 'Delivered', color: 'success' },
+            profile: 'profile-1.jpeg',
+        },
+    ]);
+
+    const [page, setPage] = useState(1);
+    const PAGE_SIZES = [10, 20, 30, 50, 100];
+    const [pageSize, setPageSize] = useState(PAGE_SIZES[0]);
+    const [initialRecords, setInitialRecords] = useState(sortBy(items, 'invoice'));
+    const [records, setRecords] = useState(initialRecords);
+
+    const [search, setSearch] = useState('');
+    const [sortStatus, setSortStatus] = useState<DataTableSortStatus>({
+        columnAccessor: 'firstName',
+        direction: 'asc',
+    });
+
+    useEffect(() => {
+        setPage(1);
+        /* eslint-disable react-hooks/exhaustive-deps */
+    }, [pageSize]);
+
+    useEffect(() => {
+        const from = (page - 1) * pageSize;
+        const to = from + pageSize;
+        setRecords([...initialRecords.slice(from, to)]);
+    }, [page, pageSize, initialRecords]);
+
+    useEffect(() => {
+        setInitialRecords(() => {
+            return items.filter((item) => {
+                return (
+                    item.invoice.toLowerCase().includes(search.toLowerCase()) ||
+                    item.name.toLowerCase().includes(search.toLowerCase()) ||
+                    item.email.toLowerCase().includes(search.toLowerCase()) ||
+                    item.date.toLowerCase().includes(search.toLowerCase()) ||
+                    item.amount.toLowerCase().includes(search.toLowerCase()) ||
+                    item.status.tooltip.toLowerCase().includes(search.toLowerCase())
+                );
+            });
+        });
+    }, [search]);
+
+    useEffect(() => {
+        const data2 = sortBy(initialRecords, sortStatus.columnAccessor);
+        setRecords(sortStatus.direction === 'desc' ? data2.reverse() : data2);
+        setPage(1);
+    }, [sortStatus]);
+
+    return (
+        <div>
+            <div className='mb-3 md:flex w-full gap-4 bg-white dark:bg-slate-900 shadow-md rounded-lg p-4'>
+
+                <div className="grid w-full grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 mb-6 text-white">
+                    <div className="panel flex bg-gradient-to-r from-cyan-800 to-cyan-700">
+                        <div>
+                            <div className="flex items-center gap-4">
+                                <div>
+                                    <IconChartSquare />
+                                </div>
+                                <div className="ltr:mr-1 rtl:ml-1 text-2xl font-semibold">Revenue</div>
+                            </div>
+                            <div className="flex items-center mt-5">
+                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> $170.46 </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Sessions */}
+                    <div className="panel flex bg-gradient-to-r from-blue-950 to-blue-900">
+                        <div>
+                            <div className="flex items-center gap-4">
+                                <div>
+                                    <IconBox />
+                                </div>
+                                <div className="ltr:mr-1 rtl:ml-1 text-2xl font-semibold">Total</div>
+                            </div>
+                            <div className="flex items-center mt-5">
+                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> 45 </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/*  Time On-Site */}
+                    <div className="panel bg-gradient-to-r from-blue-500 to-blue-400">
+                        <div>
+                            <div className="flex items-center gap-4">
+                                <div>
+                                <IconClock />
+                                </div>
+                                <div className="ltr:mr-1 rtl:ml-1 text-2xl font-semibold">Pending</div>
+                            </div>
+                            <div className="flex items-center mt-5">
+                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> 36 </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    {/* Bounce Rate */}
+                    <div className="panel bg-gradient-to-r from-green-900 to-green-700">
+                        <div>
+                            <div className="flex items-center gap-4">
+                                <div>
+                                <IconBox />
+                                </div>
+                                <div className="ltr:mr-1 rtl:ml-1 text-2xl font-semibold">Completed</div>
+                            </div>
+                            <div className="flex items-center mt-5">
+                                <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> 89 </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div className="panel px-4 border-white-light dark:border-[#1b2e4b]">
+
+                <div className="invoice-table">
+                    <div className="bg-slate-300 dark:bg-slate-600 dark:text-slate-300 mt-4 py-2 rounded-t-md px-4 flex md:items-center md:flex-row flex-col gap-5">
+                        <div className='text-lg'>Recent Laundry</div>
+
+                        <div className="ltr:ml-auto rtl:mr-auto">
+                            <input type="text" className="form-input w-auto" placeholder="Search..." value={search} onChange={(e) => setSearch(e.target.value)} />
+                        </div>
+                    </div>
+
+                    <div className="datatables pagination-padding">
+                        <DataTable
+                            className="whitespace-nowrap table-hover invoice-table"
+                            records={records}
+                            columns={[
+                                {
+                                    accessor: 'Order Id',
+                                    sortable: true,
+                                    render: ({ invoice }) => (
+                                        <NavLink to="/apps/invoice/preview">
+                                            <div className="text-primary underline hover:no-underline font-semibold">{`#${invoice}`}</div>
+                                        </NavLink>
+                                    ),
+                                },
+                                {
+                                    accessor: 'Provider',
+                                    sortable: true,
+                                    render: ({ name, id }) => (
+                                        <div className="flex items-center font-semibold">
+                                            <div className="p-0.5 bg-white-dark/30 rounded-full w-max ltr:mr-2 rtl:ml-2">
+                                                <img className="h-8 w-8 rounded-full object-cover" src={`/assets/images/profile-${id}.jpeg`} alt="" />
+                                            </div>
+                                            <div>{name}</div>
+                                        </div>
+                                    ),
+                                },
+                                {
+                                    accessor: 'date',
+                                    sortable: true,
+                                },
+                                {
+                                    accessor: 'amount',
+                                    sortable: true,
+                                    titleClassName: 'text-right',
+                                    render: ({ amount, id }) => <div className="text-right font-semibold">{`$${amount}`}</div>,
+                                },
+                                {
+                                    accessor: 'status',
+                                    sortable: true,
+                                    render: ({ status }) => <span className={`badge badge-outline-${status.color} `}>{status.tooltip}</span>,
+                                },
+
+                            ]}
+                            highlightOnHover
+                            totalRecords={initialRecords.length}
+                            recordsPerPage={pageSize}
+                            page={page}
+                            onPageChange={(p) => setPage(p)}
+                            recordsPerPageOptions={PAGE_SIZES}
+                            onRecordsPerPageChange={setPageSize}
+                            sortStatus={sortStatus}
+                            onSortStatusChange={setSortStatus}
+                            paginationText={({ from, to, totalRecords }) => `Showing  ${from} to ${to} of ${totalRecords} entries`}
+                        />
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default DashboardProvider;

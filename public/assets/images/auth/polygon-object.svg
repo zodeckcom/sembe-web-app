@@ -1,0 +1,16 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<svg width="403" height="203" viewBox="0 0 403 203" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:inkscape ="http://www.inkscape.org/namespaces/inkscape" >
+<desc>CopyRight:SVG Design Editor;
+configurationStart;Unit=smInches;Dpi=96;Division=4;Grid=True;Zoom=1;CanvasW=403;CanvasH=203;configurationEnd;</desc>
+<defs xmlns:inkscape ="http://www.inkscape.org/namespaces/inkscape" >
+<linearGradient id="1" x1="51.8148" y1="337.506" x2="355.795" y2="63.7325" gradientUnits="userSpaceOnUse" xmlns:inkscape ="http://www.inkscape.org/namespaces/inkscape" >
+<stop stop-color="#8B50E8" xmlns:inkscape ="http://www.inkscape.org/namespaces/inkscape" >
+</stop>
+<stop offset="1" stop-color="#EA6161" xmlns:inkscape ="http://www.inkscape.org/namespaces/inkscape" >
+</stop>
+</linearGradient>
+</defs>
+<g inkscape:label = "polygon-object Default Layer" inkscape:groupmode = "layer" ><path style="fill:#4CAF50;stroke:none; stroke-width:1" d="m84.14,22.5c8.04,-13.92 22.89,-22.5 38.97,-22.5l156.04,0c16.08,0 30.93,8.58 38.97,22.5l78.02,135.13c8.04,13.92 8.04,31.08 0,45l-78.02,135.13c-8.04,13.92 -22.89,22.5 -38.97,22.5l-156.04,0c-16.08,0 -30.93,-8.58 -38.97,-22.5l-78.02,-135.13c-8.04,-13.92 -8.04,-31.08 0,-45l78.02,-135.13l0,0z" opacity = "0.5" transform = "matrix(1,0,0,1,0,0)" vector-effect="non-scaling-stroke" pen = "1,1" />
+</g>
+</svg>
